@@ -1,9 +1,11 @@
 import time
+import sys
+sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/')
 
 from barcode_recognition.barcode import execute_barcode_recognition
 from money_recognition.money_recognition import execute_money_recognition
 from scene_description.image_caption import execute_image_caption
-from gps.gps import execute_send_gps
+from blindverse.utils.consts import CAP_IMAGE_NAME
 
 """
 +++++++++++++++++++++++++ GPS ALERT +++++++++++++++++++++++++
@@ -32,15 +34,17 @@ def mode_selector(s):
     valdmod = 0
     selectedmode = '0'
     inmode = 0
+    
+    #FAKE VALUES
+    content = '0000'
+    valdmod = 2
+    selectedmode = '1111'
+    
     while True:
         #client, addr = s.accept()
         while True:
             #content = client.recv(32)
-
-            content = '0000'
-            valdmod = 2
-            selectedmode = '1111'
-
+            
             if len(content) == 0:
                 break
             else:
@@ -49,8 +53,8 @@ def mode_selector(s):
 
                     inmode = str(content)
                     # len(inmode) = 4
-                    # print(str(inmode[2]))
-
+                    print(str(inmode[2]))
+                    
                     if (str(inmode[2]) == '0'):
                         print('mode 0')
 
@@ -72,19 +76,23 @@ def mode_selector(s):
 
                     if (selectedmode[2] == '1'):
                         print('Mode Money is running')
-                        execute_money_recognition()
                         valdmod = 0
-
+                    
+                        return execute_money_recognition()
+                        
                     if (selectedmode[2] == '2'):
                         print('Mode scene description is running')
-                        execute_image_caption("")
                         valdmod = 0
-
+                        content = 0
+            
+                        return execute_image_caption(CAP_IMAGE_NAME)
+                        
                     if (selectedmode[2] == '3'):
                         print('Mode barcode is running')
-                        execute_barcode_recognition()
                         valdmod = 0
-
+                        return execute_barcode_recognition()
+                        
+                    
                 if (str(content)[2] == 'A'):
                     print("ALEEEEEEEET gps position sent")
 

@@ -6,7 +6,7 @@ def playAudio(audio_name):
     pygame.mixer.music.load(audio_name)
     pygame.mixer.music.play()
 
-def stringToSpeech(text, lang):
+def string_to_speech(text, lang):
     myobj = gTTS(text=text, lang=lang, slow=False)
     myobj.save("speech.mp3")
     playAudio("speech.mp3")

@@ -1,10 +1,14 @@
 import serial
 import pynmea2
+import sys
 from Adafruit_IO import Client
-from blindverse.utils.consts import ADAFRUIT_IO_KEY, ADAFRUIT_IO_USERNAME
-aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/blindverse/utils/consts')
 
 def execute_send_gps():
+    ADAFRUIT_IO_KEY = 'aio_tzaF313Fb7FXmbOTQDqVoedW0fHS'
+    ADAFRUIT_IO_USERNAME = 'blindverse'
+    aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+
     while True:
         port = "/dev/ttyAMA0"
         ser = serial.Serial(port, baudrate=9600, timeout=0.5)
@@ -20,3 +24,7 @@ def execute_send_gps():
             print(gps)
             aio.send('gps', gpsmqtt)
             break
+        
+        
+        
+execute_send_gps()    

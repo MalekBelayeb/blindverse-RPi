@@ -1,10 +1,12 @@
+import sys
+sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/')
+
 import numpy as np
-#import tflite_runtime.interpreter as tflite
-import tensorflow as tf
-from os.path import abspath
+import tflite_runtime.interpreter as tflite
+#import tensorflow as tf
 import cv2
 from PIL import Image
-from blindverse.utils.consts import VIDEO_CAM_URL
+from blindverse.utils.consts import VIDEO_CAM_URL, MONEY_DETECTION_MODEL
 
 def execute_money_recognition():
 
@@ -26,10 +28,9 @@ def execute_money_recognition():
         cv2.imwrite(img_name, frame)
         print("{} written!".format(img_name))
         img_counter += 1
-        abs_path_to_model = abspath("blindverse/models/money-model.tflite")
 
         # Load TFLite model and allocate tensors.
-        interpreter = tf.lite.Interpreter(model_path=abs_path_to_model)
+        interpreter = tf.lite.Interpreter(model_path=MONEY_DETECTION_MODEL)
         interpreter.allocate_tensors()
 
         # Get input and output tensors.

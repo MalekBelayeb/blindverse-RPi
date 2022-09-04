@@ -1,3 +1,6 @@
+import sys
+sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/')
+
 import cv2
 from pyzbar.pyzbar import decode
 import requests
