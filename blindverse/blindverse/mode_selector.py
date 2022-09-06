@@ -6,6 +6,8 @@ from barcode_recognition.barcode import execute_barcode_recognition
 from money_recognition.money_recognition import execute_money_recognition
 from scene_description.image_caption import execute_image_caption
 from blindverse.utils.consts import CAP_IMAGE_NAME
+from blindverse.utils.capture_photo import capture_image
+from blindverse.utils.capture_photo import take_capture
 
 """
 +++++++++++++++++++++++++ GPS ALERT +++++++++++++++++++++++++
@@ -36,14 +38,14 @@ def mode_selector(s):
     inmode = 0
     
     #FAKE VALUES
-    content = '0000'
+    """content = '0000'
     valdmod = 2
     selectedmode = '1111'
-    
+    """
     while True:
-        #client, addr = s.accept()
+        client, addr = s.accept()
         while True:
-            #content = client.recv(32)
+            content = client.recv(32)
             
             if len(content) == 0:
                 break
@@ -84,8 +86,8 @@ def mode_selector(s):
                         print('Mode scene description is running')
                         valdmod = 0
                         content = 0
-            
-                        return execute_image_caption(CAP_IMAGE_NAME)
+                
+                        return execute_image_caption(take_capture())
                         
                     if (selectedmode[2] == '3'):
                         print('Mode barcode is running')

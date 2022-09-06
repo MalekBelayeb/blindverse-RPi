@@ -5,6 +5,9 @@ import os
 import json
 import base64
 from blindverse.utils.consts import BACKEND_URL
+from blindverse.utils.capture_photo import capture_image
+
+
 
 
 def execute_image_caption(path_img):
@@ -17,7 +20,7 @@ def execute_image_caption(path_img):
         with requests.Session() as s:
             res = s.post(BACKEND_URL, json.dumps(body_request))
             print(json.loads(res.text)['data'][0])
-            return  ""
+            return json.loads(res.text)['data'][0]
 
     return ""
 

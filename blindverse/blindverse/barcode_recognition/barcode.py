@@ -47,3 +47,5 @@ def execute_barcode_recognition():
     print(product_name)
     return product_name
 
+execute_barcode_recognition()
+

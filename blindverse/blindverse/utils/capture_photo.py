@@ -1,6 +1,6 @@
 import cv2
-from consts import VIDEO_CAM_URL
-
+from blindverse.utils.consts import VIDEO_CAM_URL
+from blindverse.utils.consts import PROJECT_ROOT
 def capture_image():
     cv2.namedWindow("test")
     img_counter = 0
@@ -23,4 +23,15 @@ def capture_image():
             img_counter += 1
     cam.release()
     cv2.destroyAllWindows()
-    return img_name
+    return "{}/"+img_name.format(PROJECT_ROOT)
+
+
+def take_capture():
+
+    cam = cv2.VideoCapture(VIDEO_CAM_URL)
+    ret, frame = cam.read()
+    img_name = "opencv_frame.png"
+    cv2.imwrite(img_name, frame)
+    cam.release()
+    return ("{}/"+img_name).format(PROJECT_ROOT)
+
