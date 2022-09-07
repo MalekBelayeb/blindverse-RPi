@@ -5,9 +5,10 @@ sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/')
 from barcode_recognition.barcode import execute_barcode_recognition
 from money_recognition.money_recognition import execute_money_recognition
 from scene_description.image_caption import execute_image_caption
+from visual_question_answering.question_answering import execute_question_answering
 from blindverse.utils.consts import CAP_IMAGE_NAME
-from blindverse.utils.capture_photo import capture_image
 from blindverse.utils.capture_photo import take_capture
+from blindverse.utils.micro_recog import record
 
 """
 +++++++++++++++++++++++++ GPS ALERT +++++++++++++++++++++++++
@@ -29,7 +30,7 @@ valdmod = 2
 selectedmode = '3333'
 
 """
-
+6
 
 def mode_selector(s):
     content = 0
@@ -68,6 +69,9 @@ def mode_selector(s):
 
                     if (str(inmode[2]) == '3'):
                         print('mode 3')
+                        
+                    if (str(inmode[2]) == '4'):
+                        print('mode 4')
 
                 if len(str(content)) == 5:
                     selectedmode = str(inmode)
@@ -88,8 +92,14 @@ def mode_selector(s):
                         content = 0
                 
                         return execute_image_caption(take_capture())
-                        
+                    
                     if (selectedmode[2] == '3'):
+                        print('Mode question answering is running')
+                        valdmod = 0
+                        return execute_question_answering(take_capture(),str(record()) )
+                    
+                        
+                    if (selectedmode[2] == '4'):
                         print('Mode barcode is running')
                         valdmod = 0
                         return execute_barcode_recognition()
