@@ -1,14 +1,11 @@
 import sys
-sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/')
+sys.path.append('/home/pi/Desktop/blindverse-RPi/blindverse')
 import requests
 import os
 import json
 import base64
 from blindverse.utils.consts import BACKEND_URL
-
-
-
-
+from blindverse.utils.capture_photo import take_capture
 
 def execute_image_caption(path_img):
     with open(path_img, 'rb') as img:
@@ -21,6 +18,5 @@ def execute_image_caption(path_img):
             res = s.post(BACKEND_URL, json.dumps(body_request))
             #print(json.loads(res.text)['data'][0])
             return json.loads(res.text)['data'][0]
-
+	
     return ""
-

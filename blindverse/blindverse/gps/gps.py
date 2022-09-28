@@ -10,7 +10,7 @@ def execute_send_gps():
     aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
 
     while True:
-        port = "/dev/ttyAMA0"
+        port = "/dev/serial0"
         ser = serial.Serial(port, baudrate=9600, timeout=0.5)
         dataout = pynmea2.NMEAStreamReader()
         newdata = ser.readline()

@@ -1,14 +1,10 @@
 import sys
-sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/')
+sys.path.append('/home/pi/Desktop/blindverse-RPi/blindverse')
 import requests
 import os
 import json
 import base64
 from blindverse.utils.consts import BACKEND_URL_vqa
-
-
-
-
 
 def execute_question_answering(path_img, text):
     with open(path_img, 'rb') as img:

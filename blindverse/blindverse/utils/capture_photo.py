@@ -1,4 +1,8 @@
 import cv2
+import sys
+
+sys.path.append('/home/pi/Desktop/blindverse-RPi/blindverse')
+
 from blindverse.utils.consts import VIDEO_CAM_URL
 from blindverse.utils.consts import PROJECT_ROOT
 def capture_image():
@@ -28,11 +32,11 @@ def capture_image():
 
 def take_capture():
 
-   # cam = cv2.VideoCapture(VIDEO_CAM_URL)
-    cam = cv2.VideoCapture(0)
+    cam = cv2.VideoCapture(VIDEO_CAM_URL)
     ret, frame = cam.read()
     img_name = "opencv_frame.png"
-    cv2.imwrite(img_name, frame)
+    image_path = ("{}/images/"+img_name).format(PROJECT_ROOT)
+    cv2.imwrite(image_path, frame)
     cam.release()
-    return ("{}/"+img_name).format(PROJECT_ROOT)
-
+    return image_path
+    

@@ -1,9 +1,8 @@
 import sys
-sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/')
+sys.path.append('/home/pi/Desktop/blindverse-RPi/blindverse')
 
 import numpy as np
 import tflite_runtime.interpreter as tflite
-#import tensorflow as tf
 import cv2
 from PIL import Image
 from blindverse.utils.consts import VIDEO_CAM_URL, MONEY_DETECTION_MODEL
@@ -11,7 +10,6 @@ from blindverse.utils.capture_photo import take_capture
 
 def execute_money_recognition():
     result = ""
-    
 
     # Load TFLite model and allocate tensors.
     interpreter = tflite.Interpreter(model_path=MONEY_DETECTION_MODEL)
@@ -22,8 +20,8 @@ def execute_money_recognition():
 
         # get input model shape.
     _, height, width, _ = input_details[0]['shape']
-
-    image = Image.open(take_capture()).resize((180, 180))
+    image_path = take_capture()
+    image = Image.open(image_path).resize((180, 180))
 
         # classify the image.
     input_tensor = np.array(np.expand_dims(image, 0), dtype=np.float32)
@@ -49,3 +47,4 @@ def execute_money_recognition():
         #print("This image most likely belongs to {} dinars".format(class_names[highest_pred_loc]))
 
     return result
+

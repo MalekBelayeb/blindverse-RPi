@@ -1,120 +1,63 @@
+print("welcome to blindverse, loading data ...")
 import time
 import sys
-sys.path.append('/home/blindverse/Desktop/blindverse-RPi/blindverse/')
+sys.path.append('/home/pi/Desktop/blindverse-RPi/blindverse')
 
 from barcode_recognition.barcode import execute_barcode_recognition
 from money_recognition.money_recognition import execute_money_recognition
 from scene_description.image_caption import execute_image_caption
 from visual_question_answering.question_answering import execute_question_answering
+
 from blindverse.utils.consts import CAP_IMAGE_NAME
 from blindverse.utils.capture_photo import take_capture
 from blindverse.utils.micro_recog import record
 
-"""
-+++++++++++++++++++++++++ GPS ALERT +++++++++++++++++++++++++
-content = 'AAAA' ====> GPS ALERT
+from gpiozero import Button
+from signal import pause
 
-+++++++++++++++++++++++++ MODE MONEY RECOGNITION +++++++++++++++++++++++++
-content = '0000'
-valdmod = 2
-selectedmode = '1111'
+selection_btn = Button(2)
+confirm_btn = Button(3)
+selected_mode = 0
+print("Data loaded successfully, Please select your mode:")
+def on_selection_pressed():
+    global selected_mode
+    selected_mode +=  1
+    if selected_mode == 5:
+        selected_mode = 1
 
-+++++++++++++++++++++++++ MODE SCENE DESCRIPTION +++++++++++++++++++++++++
-content = '1111'
-valdmod = 2
-selectedmode = '2222'
+    if selected_mode == 1:
+        print("selected mode money recongnition")
+    if selected_mode == 2:
+        print("selected mode barcode")
+    if selected_mode == 3:
+        print("selected image caption")
+    if selected_mode == 4:
+        print("selected question answering")
 
-+++++++++++++++++++++++++ MODE BARCODE +++++++++++++++++++++++++
-content = '2222'
-valdmod = 2
-selectedmode = '3333'
 
-"""
-6
+def on_confirm_pressed():
+    global selected_mode
+    if selected_mode == 1:
+        print("confirmed mode money recongnition")
+        result = execute_money_recognition()
+        print(result)
+    if selected_mode == 2:
+        print("confirmed mode barcode")
+        result = execute_barcode_recognition()
+        print(result)
+    if selected_mode == 3:
+        print("confirmed image caption")
+        result = execute_image_caption(take_capture())
+        print(result)
+    if selected_mode == 4:
+        print("confirmed question answering")
+        question_to_answer = str(record())
+        print("your question: ",question_to_answer)
+        result = execute_question_answering(take_capture(),question_to_answer)
+        print(result)
 
-def mode_selector(s):
-    content = 0
-    valdmod = 0
-    selectedmode = '0'
-    inmode = 0
-    
-    #FAKE VALUES
-    """content = '0000'
-    valdmod = 2
-    selectedmode = '1111'
-    """
-    while True:
-        client, addr = s.accept()
-        while True:
-            content = client.recv(32)
-            
-            if len(content) == 0:
-                break
-            else:
-                # print(len(str(content))) # = 4
-                if len(str(content)) == 4:
 
-                    inmode = str(content)
-                    # len(inmode) = 4
-                    print(str(inmode[2]))
-                    
-                    if (str(inmode[2]) == '0'):
-                        print('mode 0')
+selection_btn.when_released = on_selection_pressed
+confirm_btn.when_released = on_confirm_pressed
 
-                    if (str(inmode[2]) == '1'):
-                        print('mode 1')
-
-                    if (str(inmode[2]) == '2'):
-                        print('mode 2')
-
-                    if (str(inmode[2]) == '3'):
-                        print('mode 3')
-                        
-                    if (str(inmode[2]) == '4'):
-                        print('mode 4')
-
-                if len(str(content)) == 5:
-                    selectedmode = str(inmode)
-                    print("selectedmode is :  ", str(selectedmode))
-                    valdmod += 1
-
-                if valdmod == 2:
-
-                    if (selectedmode[2] == '1'):
-                        print('Mode Money is running')
-                        valdmod = 0
-                    
-                        return execute_money_recognition()
-                        
-                    if (selectedmode[2] == '2'):
-                        print('Mode scene description is running')
-                        valdmod = 0
-                        content = 0
-                
-                        return execute_image_caption(take_capture())
-                    
-                    if (selectedmode[2] == '3'):
-                        print('Mode question answering is running')
-                        valdmod = 0
-                        return execute_question_answering(take_capture(),str(record()) )
-                    
-                        
-                    if (selectedmode[2] == '4'):
-                        print('Mode barcode is running')
-                        valdmod = 0
-                        return execute_barcode_recognition()
-                        
-                    
-                if (str(content)[2] == 'A'):
-                    print("ALEEEEEEEET gps position sent")
-
-                    valdmod = 0
-
-                    for i in range(4):
-                        execute_send_gps()
-                        print("Iteration", i)
-                        time.sleep(0.5)
-
-        print("Closing connection")
-        #client.close()
-
+pause()
