@@ -1,4 +1,4 @@
-import sys
+yimport sys
 sys.path.append('/home/pi/Desktop/blindverse-RPi/blindverse')
 import requests
 import os

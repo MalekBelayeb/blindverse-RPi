@@ -13,3 +13,5 @@ DURATION_OF_THE_QUESTION = 6 #6 seconds to ask the question
 MONEY_DETECTION_MODEL = "{}/models/money-model.tflite".format(PROJECT_ROOT)
 ADAFRUIT_IO_KEY = 'aio_tzaF313Fb7FXmbOTQDqVoedW0fHS'
 ADAFRUIT_IO_USERNAME = 'blindverse'
+SOCKET_SERVER_HOST = '192.168.2.14'
+SOCKET_SERVER_PORT = 3000
