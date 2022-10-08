@@ -19,3 +19,4 @@ def execute_question_answering(path_img, text):
             return json.loads(res.text)['data'][0]
 
     return ""
+

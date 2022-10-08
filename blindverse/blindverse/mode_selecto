@@ -119,8 +119,6 @@ def on_confirm_pressed():
         print("confirmed question answering")
         execute_question_answering(take_capture(),str(record()))
 
-
-
 selection_btn.when_released = on_selection_pressed
 confirm_btn.when_released = on_confirm_pressed
 

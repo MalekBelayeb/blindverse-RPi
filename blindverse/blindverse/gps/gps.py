@@ -11,6 +11,4 @@ def execute_send_gps():
     message = 'GPS_ALERT'
     client_socket.send(message.encode())
     client_socket.close()
-    return
-
-execute_send_gps()    
+    return 'GPS alert sent to trust'

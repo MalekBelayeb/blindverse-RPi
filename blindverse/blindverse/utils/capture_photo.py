@@ -39,4 +39,3 @@ def take_capture():
     cv2.imwrite(image_path, frame)
     cam.release()
     return image_path
-    

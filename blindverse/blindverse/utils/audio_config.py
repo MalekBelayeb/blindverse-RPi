@@ -8,7 +8,7 @@ def playAudio(audio_name):
 
 def string_to_speech(text, lang):
     myobj = gTTS(text=text, lang=lang, slow=False)
-    myobj.save("speech.mp3")
-    playAudio("speech.mp3")
+    myobj.save("/home/pi/Desktop/blindverse-RPi/blindverse/blindverse/speech.mp3")
+    playAudio("/home/pi/Desktop/blindverse-RPi/blindverse/blindverse/speech.mp3")
 
 

@@ -37,6 +37,9 @@ def execute_barcode_recognition():
 
     cap.release()
     r = requests.get('https://tn.openfoodfacts.org/api/v2/search?code=' + str(myData) + '&fields=product_name')
-    product_name = json.loads(r.content.decode('utf-8'))['products'][0]['product_name']
-    return product_name
+    try:
+        product_name = json.loads(r.content.decode('utf-8'))['products'][0]['product_name']
+        return product_name
+    except:
+        return 'Product not found'
 
