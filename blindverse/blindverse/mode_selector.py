@@ -4,6 +4,7 @@ print("welcome to blindverse, loading data ...")
 import time
 import sys
 
+
 sys.path.append('/home/pi/Desktop/blindverse-RPi/blindverse')
 from barcode_recognition.barcode import execute_barcode_recognition
 from money_recognition.money_recognition import execute_money_recognition
@@ -18,6 +19,7 @@ from blindverse.utils.audio_config import string_to_speech
 
 from gpiozero import Button
 from signal import pause
+import translators as ts
 
 selection_btn = Button(2)
 
@@ -53,22 +55,28 @@ def on_confirm_pressed():
     if is_gps_selected == 1: 
         print("GPS ALERT")
         result = execute_send_gps()
-    
+
     if selected_mode == 1 and is_gps_selected == 0:
         print("confirmed mode money recongnition")
         string_to_speech("confirmed mode money recongnition",lang="en") 
         result = execute_money_recognition()
         print(result)
+        string_to_speech(result,lang="en")
     if selected_mode == 2 and is_gps_selected == 0:
         print("confirmed mode barcode")
         string_to_speech("confirmed mode barcode",lang="en")
         result = execute_barcode_recognition()
         print(result)
+        string_to_speech(result,lang="en")
     if selected_mode == 3 and is_gps_selected == 0:
         print("confirmed image caption")
         string_to_speech("confirmed mode scene description",lang="en")
         result = execute_image_caption(take_capture())
         print(result)
+        result_translated = ts.google(result, from_language='en', to_language='fr')
+        #print(result_translated)
+        string_to_speech(result_translated,lang="fr")
+
     if selected_mode == 4 and is_gps_selected == 0:
         print("confirmed question answering")
         string_to_speech("confirmed question answering",lang="en")
@@ -77,7 +85,10 @@ def on_confirm_pressed():
         string_to_speech("your question: "+question_to_answer,lang="en")
         result = execute_question_answering(take_capture(),question_to_answer)
         print(result)
-    string_to_speech(result,lang="en")
+        string_to_speech(result,lang="en")
+
+    
+    
     is_gps_selected = 0
 
 def on_held(): 

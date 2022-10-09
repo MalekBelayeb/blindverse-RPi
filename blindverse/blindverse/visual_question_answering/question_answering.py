@@ -15,7 +15,7 @@ def execute_question_answering(path_img, text):
 
         with requests.Session() as s:
             res = s.post(BACKEND_URL_vqa, json.dumps(body_request))
-            #print(json.loads(res.text)['data'][0])
+            
             return json.loads(res.text)['data'][0]
 
     return ""
